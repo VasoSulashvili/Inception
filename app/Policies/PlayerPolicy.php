@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Player\Player;
+use App\Models\Player;
 use App\Models\User;
 
 class PlayerPolicy

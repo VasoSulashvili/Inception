@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Admin\Admin;
+use App\Models\Admin;
 use App\Models\User;
 
 class AdminPolicy

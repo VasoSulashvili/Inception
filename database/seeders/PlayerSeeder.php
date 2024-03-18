@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Player\Player;
-use App\Models\Player\Rank;
+use App\Models\Player;
+use App\Models\Rank;
 use Illuminate\Database\Seeder;
 
 class PlayerSeeder extends Seeder
@@ -13,7 +13,7 @@ class PlayerSeeder extends Seeder
      */
     public function run(): void
     {
-
+        $rankIds = Rank::all()->pluck('id')->toArray();
         Player::factory()->create([
             "username" => "test1",
             "first_name" => "test",
@@ -21,13 +21,14 @@ class PlayerSeeder extends Seeder
             "gender" => "male",
             "lang" => "en",
             "email" => "testPlayer@gmail.com",
-            "rank_id" => Rank::factory()->create()->id,
+            "rank_id" => $rankIds[0],
             "password" => bcrypt('password'),
             "balance" => 0.0000,
             "is_blocked" => 0,
         ]);
-
-        Player::factory(9)->create();
-        Rank::factory(2)->create();
+        for ($i = 1; $i < count($rankIds); $i++)
+        {
+            Player::factory()->create(['rank_id' => $rankIds[$i]]);
+        }
     }
 }

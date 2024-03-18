@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Group;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,18 @@ class RankFactory extends Factory
      */
     public function definition(): array
     {
+        $groupId = Group::where('name', '=', \App\Enums\Rank\RankGroup::OTHER->value)
+            ->first()
+            ->id;
+        if(!$groupId) {
+            $groupId = Group::create(['name' => \App\Enums\Rank\RankGroup::OTHER->value])
+                ->first()
+                ->id;
+        }
         return [
-            //
+            'group_id' => $groupId,
+            'rank' => fake()->randomDigit(),
+            'name' => fake()->word()
         ];
     }
 }

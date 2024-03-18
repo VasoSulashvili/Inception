@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('players', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('rank_id');
+            $table->unsignedBigInteger('rank_id')->unique();
             $table->string('username')->unique();
             $table->string('first_name');
             $table->string('last_name');
@@ -23,7 +23,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('is_blocked')->default(0);
+            $table->boolean('active')->index()->default(1);
             $table->softDeletes();
+            $table->dateTime('spinner_last_activity')->nullable();
             $table->timestamps();
 
             $table->foreign('rank_id')

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->softDeletes();
+            $table->boolean('active')->index()->default(1);
             $table->timestamps();
         });
     }
