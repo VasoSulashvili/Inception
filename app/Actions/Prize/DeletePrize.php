@@ -20,7 +20,7 @@ class DeletePrize
         try {
             return $prize->delete();
         } catch (\Exception $e) {
-            throw new UnfulfilledException();
+            throw new UnfulfilledException('Record cannot be deleted!');
         }
     }
 }

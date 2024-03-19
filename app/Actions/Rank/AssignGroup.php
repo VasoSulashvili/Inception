@@ -30,13 +30,13 @@ class AssignGroup
             }
 
             // Assign group
-            $rank->group()->save($rankGroup);
+            $rank->update(['group_id' => $rankGroup->id]);
 
             return $rank->refresh();
         } catch (NotFoundHttpException $e) {
             throw new NotFoundHttpException();
         } catch (\Exception $e) {
-            throw new UnfulfilledException();
+            throw new UnfulfilledException($e->getMessage());
         }
     }
 }

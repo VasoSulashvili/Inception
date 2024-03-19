@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums\Log;
+namespace App\Enums;
 
-enum LogActions: string
+enum LogType: string
 {
     case PRIZE_WINNING = 'prize winning';
     case TRY = 'try';

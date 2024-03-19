@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Prize;
 
-use App\Enums\Prize\PrizeType;
+use App\Enums\PrizeType;
 use App\Traits\RequestJSONError;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

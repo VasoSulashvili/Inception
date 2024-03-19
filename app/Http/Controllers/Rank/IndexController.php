@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Rank;
 
-use App\Enums\Rank\RankGroup;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PrizeResource;
 use App\Http\Resources\RankResource;
 use App\Models\Rank;
-use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {

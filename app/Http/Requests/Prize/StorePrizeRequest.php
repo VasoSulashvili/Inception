@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Prize;
 
+use App\Enums\PrizeType;
 use App\Traits\RequestJSONError;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Enums\Prize\PrizeType;
 
 class StorePrizeRequest extends FormRequest
 {

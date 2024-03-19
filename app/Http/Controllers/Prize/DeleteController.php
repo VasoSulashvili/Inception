@@ -15,6 +15,6 @@ class DeleteController extends Controller
     {
         $action->handle($prize);
         return response()
-            ->json(['message' => 'Recorde was deleted successfully!'], 204);
+            ->json('', 204);
     }
 }

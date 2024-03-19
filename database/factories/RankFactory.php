@@ -17,11 +17,11 @@ class RankFactory extends Factory
      */
     public function definition(): array
     {
-        $groupId = Group::where('name', '=', \App\Enums\Rank\RankGroup::OTHER->value)
+        $groupId = Group::where('name', '=', \App\Enums\GroupType::OTHER->value)
             ->first()
             ->id;
         if(!$groupId) {
-            $groupId = Group::create(['name' => \App\Enums\Rank\RankGroup::OTHER->value])
+            $groupId = Group::create(['name' => \App\Enums\GroupType::OTHER->value])
                 ->first()
                 ->id;
         }

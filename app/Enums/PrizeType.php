@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\Prize;
+namespace App\Enums;
 
 enum PrizeType: string
 {

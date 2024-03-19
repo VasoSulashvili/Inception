@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums\Rank;
+namespace App\Enums;
 
-enum RankGroup: string
+enum GroupType: string
 {
     case WINNER = 'winner';
     case RUNNER_UP = 'runner_up';

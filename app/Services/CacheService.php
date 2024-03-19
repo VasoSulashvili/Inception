@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Enums\Rank\RankGroup;
+use App\Enums\GroupType;
 use App\Models\Group;
 use App\Models\Player;
 use App\Models\Setting;
@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Cache;
 class CacheService
 {
     /**
-     * @param string|RankGroup $group
+     * @param string|GroupType $group
      * @return array
      */
-    public function generateGroupData(string|RankGroup $group): array
+    public function generateGroupData(string|GroupType $group): array
     {
-        if ($group instanceof RankGroup) {
+        if ($group instanceof GroupType) {
             $group = $group->value;
         }
         $group = Group::where('name', '=', $group)->with('prizes')->first();
@@ -55,12 +55,12 @@ class CacheService
 
 
     /**
-     * @param string|RankGroup $group
+     * @param string|GroupType $group
      * @return bool
      */
-    public function updateGroupData(string|RankGroup $group): bool
+    public function updateGroupData(string|GroupType $group): bool
     {
-        if ($group instanceof RankGroup) {
+        if ($group instanceof GroupType) {
             $group = $group->value;
         }
         Cache::forget('groups-' . $group);
@@ -70,10 +70,10 @@ class CacheService
 
 
     /**
-     * @param string|RankGroup $group
+     * @param string|GroupType $group
      * @return mixed
      */
-    public function getGroupData(string|RankGroup $group)
+    public function getGroupData(string|GroupType $group)
     {
         return Cache::rememberForever('groups-' . $group, function () use ($group){
             return $this->generateGroupData($group);

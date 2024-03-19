@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Log;
 
-use App\Enums\Log\LogActions;
+use App\Enums\LogType;
 use App\Exceptions\UnfulfilledException;
 use App\Models\Log;
 use App\Models\Player;
@@ -13,13 +13,13 @@ use App\Models\Prize;
 class StoreLog
 {
     /**
-     * @param LogActions $action
+     * @param LogType $action
      * @param int|Player $player
      * @param int|Prize $prize
      * @return mixed
      * @throws UnfulfilledException
      */
-    public function handle(LogActions $action, int|Player $player, int|Prize $prize)
+    public function handle(LogType $action, int|Player $player, int|Prize $prize)
     {
         try {
             if (!$prize instanceof Prize) {

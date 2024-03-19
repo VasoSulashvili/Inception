@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Spinner;
 
 use App\Actions\Log\StoreLog;
 use App\Actions\Spinner\TriggerSpinner;
-use App\Enums\Log\LogActions;
+use App\Enums\LogType;
 use App\Exceptions\UnfulfilledException;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class TriggerController extends Controller
 
             // Store Log
             $logAction->handle(
-                LogActions::PRIZE_WINNING,
+                LogType::PRIZE_WINNING,
                 auth()->user()->id,
                 $prizeId,
             );

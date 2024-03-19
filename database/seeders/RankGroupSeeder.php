@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Group;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class RankGroupSeeder extends Seeder
@@ -14,15 +13,15 @@ class RankGroupSeeder extends Seeder
     public function run(): void
     {
         Group::create([
-            'name' => \App\Enums\Rank\RankGroup::WINNER->value
+            'name' => \App\Enums\GroupType::WINNER->value
         ]);
 
         Group::create([
-            'name' => \App\Enums\Rank\RankGroup::RUNNER_UP->value
+            'name' => \App\Enums\GroupType::RUNNER_UP->value
         ]);
 
         Group::create([
-            'name' => \App\Enums\Rank\RankGroup::OTHER->value
+            'name' => \App\Enums\GroupType::OTHER->value
         ]);
     }
 }
