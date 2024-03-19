@@ -3,9 +3,7 @@
 namespace App\Http\Requests\Prize;
 
 use App\Traits\RequestJSONError;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
 class StorePriceGroupRequest extends FormRequest

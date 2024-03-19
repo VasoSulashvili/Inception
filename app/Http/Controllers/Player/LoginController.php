@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Player;
 
-use App\Http\Requests\PlayerLoginRequest;
+use App\Http\Requests\Player\PlayerLoginRequest;
 use App\Models\Player;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController
 {
-    public function login(PlayerLoginRequest $request)
+    public function __invoke(PlayerLoginRequest $request)
     {
         if(!Auth::guard('player')->attempt($request->only('email', 'password'))) {
             return response()->json(['errors' => 'Invalid Credentials!'], 401);

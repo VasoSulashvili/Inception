@@ -21,5 +21,9 @@ class SettingSeeder extends Seeder
             'identifier' => 'spin-activity-interval',
             'value' => 1,
         ]);
+        Setting::create([
+            'identifier' => 'player-cache-ttl',
+            'value' => 1,
+        ]);
     }
 }

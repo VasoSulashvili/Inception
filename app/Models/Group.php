@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Support\Facades\CacheService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,6 +23,36 @@ class Group extends Model
         'active'
     ];
 
+    public static function boot() {
+        parent::boot();
+
+        /**
+         * Write code on Method
+         *
+         * @return response()
+         */
+        static::created(function($item) {
+            CacheService::destroyGroups();
+        });
+
+        /**
+         * Write code on Method
+         *
+         * @return response()
+         */
+        static::updated(function($item) {
+            CacheService::destroyGroups();
+        });
+        /**
+         * Write code on Method
+         *
+         * @return response()
+         */
+        static::deleted(function($item) {
+            CacheService::destroyGroups();
+        });
+    }
+
     /**
      * Relationships
      */
@@ -37,5 +69,13 @@ class Group extends Model
             'group_id',
             'prize_id'
         )->withPivot('number', 'amount');
+    }
+
+    /**
+     * Scope a query.
+     */
+    public function scopeActive(Builder $query, $active = null): void
+    {
+        $query->where('active', ($active == null ? 1 : 0));
     }
 }

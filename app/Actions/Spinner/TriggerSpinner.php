@@ -4,70 +4,47 @@ declare(strict_types=1);
 
 namespace App\Actions\Spinner;
 
-use App\Actions\Group\GenerateData;
-use App\Traits\HasGroupData;
+use App\Support\Facades\CacheService;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Exceptions\UnfulfilledException;
-use Illuminate\Http\Request;
-use App\Models\Group;
-use App\Models\Rank;
 
 class TriggerSpinner
 {
-    use HasGroupData;
     /**
-     * @return mixed
+     * @return int $wonPrizeId
      * @throws UnfulfilledException
      */
-    public function handle()
+    public function handle(): int
     {
-        try {
-            // Get auth user
-            $player = auth()->user();
-            // Calculate last activity and spinner freeze time
-            $validTime = Carbon::create($player->spinner_last_activity)
-                ->addHours(intval(setting('spin-activity-interval')));
-            if (
-                $player->spinner_last_activity == null
-                || now() > $validTime
-            )
-            {
-                DB::beginTransaction();
-                // Get user/player group
-                $group = $player->rank->group;
+        // Get auth user
+        $player = auth()->user();
+        $spinnerLastActivity = $player->spinner_last_activity;
 
-                // Get Cached data for group
-                $data = $this->getCachedData($group);
+        // Calculate last activity and spinner freeze time
+        $validTime = Carbon::create($spinnerLastActivity)
+            ->addHours(intval(setting('spin-activity-interval')));
 
-                // Get random id of prize
-                $wonPrizeId = $data['prizes_win_percentages'][array_rand($data['prizes_win_percentages'], 1)];
+        if ($spinnerLastActivity == null || now() > $validTime) {
 
-                // Give player won prize
-                $player->prizes()->attach($wonPrizeId);
+            // Get user/player group
+            $group = $player->rank->group;
 
-                // Update player spinner last activity
-                $player->update(['spinner_last_activity' => now()]);
+            // Get Cached data for group
+            $data = CacheService::getGroupData($group->name);
 
-                // Log action
+            // Get random id of prize
+            $wonPrizeId = $data['prize_percentages'][array_rand($data['prize_percentages'], 1)];
 
+            // Give player won prize
+            $player->prizes()->attach($wonPrizeId);
 
-                DB::commit();
-            } else {
-                DB::rollBack();
-                $waitTime = $validTime->diff(now());
-                throw new UnfulfilledException('You have to wait ' . $waitTime);
-            }
+            // Update player spinner last activity
+            $player->update(['spinner_last_activity' => now()]);
 
-
-
-
-
-
-            return [now()->subHour(), Carbon::create($player->spinner_last_activity)];
-        } catch (NotFoundHttpException $e) {
-            throw new NotFoundHttpException();
+            return $wonPrizeId;
+        } else {
+            $waitTime = $validTime->diff(now());
+            throw new UnfulfilledException('You have to wait ' . $waitTime);
         }
     }
 }

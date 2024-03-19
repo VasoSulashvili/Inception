@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Actions\Prize;
 
-use App\Enums\Rank\RankGroup;
-use App\Events\Group\UpdateGroupData;
-use App\Exceptions\UnfulfilledException;
+use App\Support\Facades\CacheService;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Http\Requests\Prize\StorePriceGroupRequest;
+use App\Exceptions\UnfulfilledException;
 use App\Models\Prize;
 use App\Models\Group;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AssignGroup
 {
@@ -22,21 +20,21 @@ class AssignGroup
      */
     public function handle(StorePriceGroupRequest $request): mixed
     {
-
         // Retrieve records
         $group = Group::where('id', '=', $request->input('group_id'))->first();
         $prize = Prize::where('id', '=', $request->input('prize_id'))->first();
-        $groupData = RankGroup::from($group->name)->data();
 
         // Check
         if (!$prize?->id || !$group?->id) {
             throw new NotFoundHttpException();
         }
 
+        $groupData = CacheService::getGroupData($group->name);
+
         // Assign group
         if (
             setting('prize-total-number')
-            >= ($groupData['total_number'] + $request->input('number'))
+            >= ($groupData['prize_total_number'] + $request->input('number'))
         )
         {
             $prize->groups()->attach($group->id, [
@@ -47,9 +45,8 @@ class AssignGroup
             throw new UnfulfilledException('Too much prize number per group!');
         }
 
-
         // Update Group Cache Data
-        UpdateGroupData::dispatch($group->name);
+        CacheService::updateGroupData($group->name);
 
         return $group;
     }

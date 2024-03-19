@@ -2,14 +2,14 @@
 
 namespace App\Http\Requests\Prize;
 
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
+use App\Traits\RequestJSONError;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Enums\Prize\PrizeType;
 
 class StorePrizeRequest extends FormRequest
 {
+    use RequestJSONError;
     /**
      * Determine if the user is authorized to make this request.
      */

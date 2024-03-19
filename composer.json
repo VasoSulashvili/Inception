@@ -21,7 +21,8 @@
     },
     "autoload": {
         "files": [
-            "app/Files/functions.php"
+            "app/Files/functions.php",
+            "app/Files/constants.php"
         ],
         "psr-4": {
             "App\\": "app/",

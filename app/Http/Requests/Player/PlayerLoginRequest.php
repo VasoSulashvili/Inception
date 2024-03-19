@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Player;
 
-use Illuminate\Contracts\Validation\Validator;
+use App\Traits\RequestJSONError;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PlayerLoginRequest extends FormRequest
 {
+    use RequestJSONError;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -27,17 +27,5 @@ class PlayerLoginRequest extends FormRequest
             'email' => ['required', 'email'],
             'password' => ['required']
         ];
-    }
-
-    /**
-     * Get the error messages for the defined validation rules.*
-     * @return array
-     */
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'errors' => $validator->errors(),
-            'status' => true
-        ], 401));
     }
 }

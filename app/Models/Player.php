@@ -78,6 +78,11 @@ class Player extends Authenticatable
         return $this->belongsTo(Rank::class, 'rank_id');
     }
 
+    public function logs(): HasMany
+    {
+        return $this->hasMany(Log::class, 'player_id', 'id');
+    }
+
 
     /**
      * Scope a query.
