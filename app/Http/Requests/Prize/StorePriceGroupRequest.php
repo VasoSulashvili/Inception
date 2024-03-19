@@ -32,7 +32,6 @@ class StorePriceGroupRequest extends FormRequest
                 Rule::unique('group_prize', 'prize_id')
                     ->where('group_id', $this->input('group_id'))],
             'number' => ['required', 'integer', 'max:1000000'],
-            'amount' => ['required', 'decimal:4', 'min:0.0001'],
         ];
     }
 

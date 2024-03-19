@@ -20,7 +20,6 @@ class Prize extends Model
     protected function casts(): array
     {
         return [
-            'amount' => 'double',
             'number' => 'integer',
         ];
     }

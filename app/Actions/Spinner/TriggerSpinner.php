@@ -38,8 +38,11 @@ class TriggerSpinner
             // Give player won prize
             $player->prizes()->attach($wonPrizeId);
 
-            // Update player spinner last activity
-            $player->update(['spinner_last_activity' => now()]);
+            // Update player spinner last activity and balance
+            $player->update([
+                'spinner_last_activity' => now(),
+                'balance' => ($player->balance + $data['prize_amounts'][$wonPrizeId])
+            ]);
 
             return $wonPrizeId;
         } else {

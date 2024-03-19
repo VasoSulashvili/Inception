@@ -27,6 +27,7 @@ class CacheService
         $data = [
             'prize_total_number' => null,
             'prize_percentages' => [],
+            'prize_amounts' => []
         ];
 
         if ($group != null) {
@@ -42,6 +43,11 @@ class CacheService
                 array_push($data['prize_percentages'], $iArray);
             }
             $data['prize_percentages'] = Arr::flatten($data['prize_percentages']);
+
+            // Set prize amounts
+            foreach ($group->prizes as $prize) {
+                $data['prize_amounts'][$prize->pivot->prize_id] = $prize->pivot->amount;
+            }
 
         }
         return $data;
@@ -121,10 +127,21 @@ class CacheService
     }
 
 
+    /**
+     * @return mixed
+     */
     public function getSettings(): mixed
     {
         return Cache::rememberForever(SETTINGS_CACHE_KEY, function () {
             return Setting::all();
         });
+    }
+
+    /**
+     * @return mixed
+     */
+    public function destroySettings(): mixed
+    {
+        return Cache::forget(SETTINGS_CACHE_KEY);
     }
 }

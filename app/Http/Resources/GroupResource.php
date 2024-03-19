@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PrizeResource extends JsonResource
+class GroupResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +16,10 @@ class PrizeResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'type' => $this->type,
-            'amount' => $this->amount,
             'active' => $this->active,
             'included' => [
-                'winners' => PlayerResource::collection($this->whenLoaded('winners')),
-                'groups' => GroupResource::collection($this->whenLoaded('groups')),
+                'rank' => new RankResource($this->whenLoaded('rank')),
+                'prizes' => PrizeResource::collection($this->whenLoaded('prizes'))
             ]
         ];
     }

@@ -18,7 +18,11 @@ class RankResource extends JsonResource
             'group_id' => $this->group_id,
             'rank' => $this->rank,
             'name' => $this->name,
-            'active' => $this->active
+            'active' => $this->active,
+            'included' => [
+                'player' => new PlayerResource($this->whenLoaded('player')),
+                'group' => new GroupResource($this->whenLoaded('group')),
+            ]
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Facades\CacheService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,36 @@ class Setting extends Model
         'value',
         'active'
     ];
+
+    public static function boot() {
+        parent::boot();
+
+        /**
+         * Write code on Method
+         *
+         * @return response()
+         */
+        static::created(function($item) {
+            CacheService::destroySettings();
+        });
+
+        /**
+         * Write code on Method
+         *
+         * @return response()
+         */
+        static::updated(function($item) {
+            CacheService::destroySettings();
+        });
+        /**
+         * Write code on Method
+         *
+         * @return response()
+         */
+        static::deleted(function($item) {
+            CacheService::destroySettings();
+        });
+    }
 
 
     /**
