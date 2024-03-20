@@ -44,6 +44,9 @@ class TriggerSpinner
                 'balance' => ($player->balance + $data['prize_amounts'][$wonPrizeId])
             ]);
 
+            // Destroy auth player cache
+            CacheService::destroyAuthPlayerData($player->id);
+
             return $wonPrizeId;
         } else {
             $waitTime = $validTime->diff(now());

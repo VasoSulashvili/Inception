@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Player;
 
 use App\Http\Requests\Player\PlayerLoginRequest;
 use App\Models\Player;
+use App\Support\Facades\CacheService;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController
@@ -15,6 +16,7 @@ class LoginController
         }
 
         $user = Player::where('email', '=', $request->input('email'))->first();
+        CacheService::destroyAuthPlayerData($user->id);
         $token = $user->createToken('auth', ['role:player'])->plainTextToken;
 
         return response()->json([

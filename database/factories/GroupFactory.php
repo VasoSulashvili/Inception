@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Admin>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Group>
  */
-class AdminFactory extends Factory
+class GroupFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,10 +17,7 @@ class AdminFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => fake()->name,
-            'last_name' => fake()->lastName,
-            'email' => fake()->email,
-            'password' => bcrypt('123123123'),
+            'name' => fake()->name,
             'active' => 1
         ];
     }
