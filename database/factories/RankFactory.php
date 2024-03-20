@@ -19,14 +19,14 @@ class RankFactory extends Factory
     {
         $groupId = Group::where('name', '=', \App\Enums\GroupType::OTHER->value)
             ->first()
-            ->id;
+            ?->id;
         if(!$groupId) {
             $groupId = Group::create(['name' => \App\Enums\GroupType::OTHER->value])
                 ->first()
                 ->id;
         }
         return [
-            'group_id' => $groupId,
+            'group_id' => Group::factory(),
             'rank' => fake()->randomDigit(),
             'name' => fake()->word()
         ];
